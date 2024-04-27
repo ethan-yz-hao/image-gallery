@@ -1,12 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-export interface ImageItem {
-    title: string;
-    description: string;
-    url: string;
-    created: string;
-}
+import {ImageItem} from "@/hooks/useImages.ts";
 
 const Card = styled.div`
     background: white;
@@ -15,7 +9,7 @@ const Card = styled.div`
     margin: 10px;
     overflow: hidden;
     width: 300px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.3s ease-in-out;
 
     &:hover {
@@ -51,14 +45,29 @@ const DateText = styled.small`
     font-size: 0.8em;
 `;
 
-const ImageCard: React.FC<{ item: ImageItem }> = ({item}) => {
+const SelectButton = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const ImageCard: React.FC<{ item: ImageItem, isSelected: boolean, toggleSelect: (item: ImageItem) => void }> = ({ item, isSelected, toggleSelect }) => {
     return (
         <Card>
-            <Image src={item.url} alt={item.title}/>
+            <Image src={item.url} alt={item.title} />
             <Content>
                 <Title>{item.title}</Title>
                 <Description>{item.description}</Description>
                 <DateText>Posted on: {new Date(item.created).toLocaleDateString()}</DateText>
+                <SelectButton onClick={() => toggleSelect(item)}>{isSelected ? 'Unselect' : 'Select'}</SelectButton>
             </Content>
         </Card>
     );
