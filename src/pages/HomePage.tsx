@@ -4,7 +4,7 @@ import UtilBar from "@/components/UtilBar.tsx";
 import {RootState} from "@/store.ts";
 import {useDispatch, useSelector} from "react-redux";
 import { clearSelection, selectAll } from '@/features/selectionSlice';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const HomePage = () => {
     const {imageArray, loading, error} = useImages()
@@ -32,31 +32,27 @@ const HomePage = () => {
     const [nameSortDirection, setNameSortDirection] = useState('');
     const [createdSortDirection, setCreatedSortDirection] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
+    const [filteredList, setFilteredList] = useState<ImageItem[]>([]);
 
-    const toggleSortDirection = (current: string) => {
-        switch(current) {
-            case 'asc': return 'desc';
-            case 'desc': return '';
-            default: return 'asc';
+    useEffect(() => {
+        if (imageArray && imageArray.length > 0) {
+            applySearchAndSorting(imageArray);
         }
+    }, [imageArray]);
+
+    const handleSearch = () => {
+        applySearchAndSorting(imageArray);
     };
 
-    const sortByName = () => {
-        setNameSortDirection(toggleSortDirection(nameSortDirection));
-        setCreatedSortDirection('');
-    };
-
-    const sortByCreated = () => {
-        setCreatedSortDirection(toggleSortDirection(createdSortDirection));
-        setNameSortDirection('');
-    };
-
-    const filteredAndSortedItems = () => {
-        const filtered = imageArray.filter(item =>
+    const applySearchAndSorting  = (items: ImageItem[]) => {
+        const filtered = items.filter(item =>
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.description.toLowerCase().includes(searchQuery.toLowerCase())
         );
+        applySorting(filtered);
+    };
 
+    const applySorting = (filtered: ImageItem[]) => {
         if (nameSortDirection === 'asc') {
             filtered.sort((a, b) => a.title.localeCompare(b.title));
         } else if (nameSortDirection === 'desc') {
@@ -69,25 +65,48 @@ const HomePage = () => {
             filtered.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
         }
 
-        return filtered;
+        setFilteredList(filtered);  // Set the state with the filtered and sorted list
+    };
+
+
+    const toggleSortDirection = (current: string) => {
+        switch(current) {
+            case 'asc': return 'desc';
+            case 'desc': return '';
+            default: return 'asc';
+        }
+    };
+
+    const sortByName = () => {
+        const newDirection = toggleSortDirection(nameSortDirection);
+        setNameSortDirection(newDirection);
+        setCreatedSortDirection('');
+        applySorting(filteredList);  // Apply sorting on current filtered list
+    };
+
+    const sortByCreated = () => {
+        const newDirection = toggleSortDirection(createdSortDirection);
+        setCreatedSortDirection(newDirection);
+        setNameSortDirection('');
+        applySorting(filteredList);  // Apply sorting on current filtered list
     };
 
     return (
         <div>
             <UtilBar
-                selectAll={() => handleSelectAll(imageArray)}
+                selectAll={() => handleSelectAll(filteredList)}
                 clearSelection={handleClearSelection}
                 downloadSelected={downloadSelected}
                 sortByName={sortByName}
                 nameSortDirection={nameSortDirection}
                 sortByCreated={sortByCreated}
                 createdSortDirection={createdSortDirection}
-                searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
+                initiateSearch={handleSearch}
             />
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
-            {!loading && !error && <ImageGrid allItems={filteredAndSortedItems()} />}
+            {!loading && !error && <ImageGrid allItems={filteredList} />}
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import React from "react";
 
 const Bar = styled.div`
     display: flex;
@@ -45,20 +46,27 @@ interface Props {
     nameSortDirection?: string;
     sortByCreated: () => void;
     createdSortDirection?: string;
-    searchQuery: string;
     setSearchQuery: (query: string) => void;
+    initiateSearch: () => void;
 }
 
 const UtilBar = ({
                      selectAll, clearSelection, downloadSelected,
                      sortByName, nameSortDirection,
                      sortByCreated, createdSortDirection,
-                     searchQuery, setSearchQuery
+                     setSearchQuery,
+                     initiateSearch
                  }: Props) => {
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            initiateSearch();
+        }
+    };
+
     return (
         <Bar>
-            <Input type="text" placeholder="Search images..." value={searchQuery}
-                   onChange={e => setSearchQuery(e.target.value)}/>
+            <Input type="text" placeholder="Search images..." onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
+            <Button onClick={initiateSearch}>Search</Button>
             <Button onClick={selectAll}>Select All</Button>
             <Button onClick={clearSelection}>Clear Selection</Button>
             <Button onClick={downloadSelected}>Download Selected</Button>
