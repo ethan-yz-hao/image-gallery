@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
 
+export interface ImageItem {
+    "title": string;
+    "description": string;
+    "url": string;
+    "created": string;
+}
+
 const useImages = () => {
-    const [images, setImages] = useState([]);
+    const [imageArray, setImageArray] = useState<ImageItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>();
 
@@ -14,7 +21,7 @@ const useImages = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                setImages(data);
+                setImageArray(data);
             } catch (error: unknown) {
                 if (error instanceof Error) {
                     setError(error.message);
@@ -28,7 +35,7 @@ const useImages = () => {
         fetchData();
     }, []);
 
-    return { images, loading, error };
+    return { imageArray, loading, error };
 };
 
 export default useImages;
