@@ -29,6 +29,14 @@ export const SortButton = styled(Button)`
     }
 `;
 
+const Input = styled.input`
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+`;
+
+
 interface Props {
     selectAll: () => void;
     clearSelection: () => void;
@@ -37,15 +45,20 @@ interface Props {
     nameSortDirection?: string;
     sortByCreated: () => void;
     createdSortDirection?: string;
+    searchQuery: string;
+    setSearchQuery: (query: string) => void;
 }
 
 const UtilBar = ({
                      selectAll, clearSelection, downloadSelected,
                      sortByName, nameSortDirection,
-                     sortByCreated, createdSortDirection
+                     sortByCreated, createdSortDirection,
+                     searchQuery, setSearchQuery
                  }: Props) => {
     return (
         <Bar>
+            <Input type="text" placeholder="Search images..." value={searchQuery}
+                   onChange={e => setSearchQuery(e.target.value)}/>
             <Button onClick={selectAll}>Select All</Button>
             <Button onClick={clearSelection}>Clear Selection</Button>
             <Button onClick={downloadSelected}>Download Selected</Button>

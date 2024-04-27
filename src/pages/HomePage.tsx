@@ -28,9 +28,10 @@ const HomePage = () => {
         console.log('Downloading:', urls);
     };
 
-    // handle sort
+    // handle sort and search
     const [nameSortDirection, setNameSortDirection] = useState('');
     const [createdSortDirection, setCreatedSortDirection] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const toggleSortDirection = (current: string) => {
         switch(current) {
@@ -50,18 +51,25 @@ const HomePage = () => {
         setNameSortDirection('');
     };
 
-    const sortedItems = () => {
-        let sorted = [...imageArray];
+    const filteredAndSortedItems = () => {
+        const filtered = imageArray.filter(item =>
+            item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
         if (nameSortDirection === 'asc') {
-            sorted.sort((a, b) => a.title.localeCompare(b.title));
+            filtered.sort((a, b) => a.title.localeCompare(b.title));
         } else if (nameSortDirection === 'desc') {
-            sorted.sort((a, b) => b.title.localeCompare(a.title));
-        } else if (createdSortDirection === 'asc') {
-            sorted.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime());
-        } else if (createdSortDirection === 'desc') {
-            sorted.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+            filtered.sort((a, b) => b.title.localeCompare(a.title));
         }
-        return sorted;
+
+        if (createdSortDirection === 'asc') {
+            filtered.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime());
+        } else if (createdSortDirection === 'desc') {
+            filtered.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+        }
+
+        return filtered;
     };
 
     return (
@@ -74,10 +82,12 @@ const HomePage = () => {
                 nameSortDirection={nameSortDirection}
                 sortByCreated={sortByCreated}
                 createdSortDirection={createdSortDirection}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
             />
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
-            {!loading && !error && <ImageGrid allItems={sortedItems()} />}
+            {!loading && !error && <ImageGrid allItems={filteredAndSortedItems()} />}
         </div>
     );
 };
