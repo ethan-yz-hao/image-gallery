@@ -1,11 +1,16 @@
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from '@/pages/HomePage.tsx';
+import GlobalStyles from '@/styles/globalStyles';
 
-function App() {
+const App = () => {
     return (
-        <>
-            Hello, world!
-        </>
-    )
-}
+        <Router>
+            <GlobalStyles />
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+            </Routes>
+        </Router>
+    );
+};
 
-export default App
+export default App;
