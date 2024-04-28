@@ -91,6 +91,8 @@ const DropdownContent = styled.div`
     z-index: 1;
     border-radius: 8px;
     padding: 5px 0;
+    max-height: 500px;
+    overflow-y: auto;
 `;
 
 const DropdownButton = styled.div`
