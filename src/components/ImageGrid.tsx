@@ -1,22 +1,19 @@
+import Masonry from 'react-masonry-css';
 import ImageCard from "@/components/ImageCard.tsx";
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleSelect } from '@/features/selectionSlice';
-import { RootState } from '@/store';
-import styled from 'styled-components';
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/store.ts";
 import {ImageItem} from "@/hooks/useImages.ts";
+import {toggleSelect} from "@/features/selectionSlice.ts";
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px;
-`;
+const breakpointColumnsObj = {
+    default: 5,
+    1600: 4,
+    1300: 3,
+    980: 2,
+    650: 1
+};
 
-interface Props {
-    allItems: ImageItem[];
-}
-
-const ImageGrid = ({ allItems }: Props) => {
+const ImageGrid = ({ allItems }: {allItems: ImageItem[]}) => {
     const dispatch = useDispatch();
     const { selectedItems } = useSelector((state: RootState) => ({
         selectedItems: state.selection.selectedItems
@@ -27,7 +24,11 @@ const ImageGrid = ({ allItems }: Props) => {
     };
 
     return (
-        <Grid>
+        <div style={{width:'100%', display: 'flex', justifyContent: 'center'}}>
+        <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column">
             {allItems.map(item => (
                 <ImageCard
                     key={item.url}
@@ -36,7 +37,8 @@ const ImageGrid = ({ allItems }: Props) => {
                     toggleSelect={() => dispatch(toggleSelect(item))}
                 />
             ))}
-        </Grid>
+        </Masonry>
+        </div>
     );
 };
 

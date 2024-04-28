@@ -17,6 +17,21 @@ const GlobalStyles = createGlobalStyle`
     #root {
         text-align: center;
     }
+
+    .my-masonry-grid {
+        display: flex;
+        width: auto;
+        width: 100%;
+        max-width: 1600px;
+    }
+    .my-masonry-grid_column {
+        //padding-left: 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-clip: padding-box;
+    }
+    
 `;
 
 export default GlobalStyles;
