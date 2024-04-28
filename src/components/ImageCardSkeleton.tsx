@@ -20,11 +20,11 @@ const SkeletonWrapper = styled.div`
     height: 350px;
 `;
 
-const SkeletonHeader = styled.div`
+export const SkeletonHeader = styled.div`
     height: 200px;
     background: #eee linear-gradient(to right, #eeeeee 0%, #dddddd 20%, #eeeeee 40%, #eeeeee 100%) no-repeat;
-    animation: ${shimmer} 1s linear infinite;
-    background-size: 800px 104px;
+    animation: ${shimmer} 0.8s linear infinite;
+    background-size: 800px 350px;
 `;
 
 const SkeletonBody = styled.div`
@@ -36,8 +36,8 @@ const SkeletonLine = styled.div`
     margin: 5px 0;
     border-radius: 4px;
     background: #eee linear-gradient(to right, #eeeeee 0%, #dddddd 20%, #eeeeee 40%, #eeeeee 100%) no-repeat;
-    animation: ${shimmer} 1s linear infinite;
-    background-size: 800px 104px;
+    animation: ${shimmer} 0.8s linear infinite;
+    background-size: 800px 100px;
 `;
 
 const SkeletonSmallLine = styled(SkeletonLine)`

@@ -15,8 +15,8 @@ const ImageGridSkeleton = ({n}: { n: number }) => {
             breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column">
-            {Array.from({length: n}).map(() => (
-                <ImageCardSkeleton/>
+            {Array.from({length: n}).map((_, index) => (
+                <ImageCardSkeleton key={index}/>
             ))}
         </Masonry>
     );

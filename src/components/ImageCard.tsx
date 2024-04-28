@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { FaRegCircle, FaCheckCircle } from 'react-icons/fa'; // Importing icons
-import { ImageItem } from "@/hooks/useImages.ts";
+import styled, {keyframes} from 'styled-components';
+import {FaCheckCircle, FaRegCircle} from 'react-icons/fa'; // Importing icons
+import {ImageItem} from "@/hooks/useImages.ts";
 import {useState} from "react";
 
 const Card = styled.div`
@@ -71,6 +71,22 @@ const SelectIcon = styled.span`
     &:hover {
         color: #cc001d;
     }
+`;
+
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
+
+export const SkeletonImage = styled.div`
+    height: 200px;
+    background: #eee linear-gradient(to right, #eeeeee 0%, #dddddd 20%, #eeeeee 40%, #eeeeee 100%) no-repeat;
+    animation: ${shimmer} 0.1s linear infinite;
+    background-size: 800px 350px;
 `;
 
 interface Props {
