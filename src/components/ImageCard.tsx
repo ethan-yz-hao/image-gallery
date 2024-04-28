@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FaRegCircle, FaCheckCircle } from 'react-icons/fa'; // Importing icons
 import { ImageItem } from "@/hooks/useImages.ts";
+import {useState} from "react";
 
 const Card = styled.div`
     background: #fff;
@@ -18,10 +19,16 @@ const Card = styled.div`
     }
 `;
 
+const ImageWrapper = styled.div`
+    width: 100%;
+    background: #eee;
+`;
+
 const Image = styled.img`
     width: 100%;
     height: auto;
     object-fit: cover;
+    display: block;
 `;
 
 const Content = styled.div`
@@ -73,9 +80,18 @@ interface Props {
 }
 
 const ImageCard = ({ item, isSelected, toggleSelect }: Props) => {
+    const [isLoaded, setIsLoaded] = useState(false);
     return (
         <Card>
-            <Image src={item.url} alt={item.title} />
+            <ImageWrapper>
+                {!isLoaded && <div style={{ height: '300px', background: '#ccc'}}></div>}
+                <Image
+                    src={item.url}
+                    alt={item.title}
+                    onLoad={() => setIsLoaded(true)}
+                    style={{ display: isLoaded ? 'block' : 'none' }}
+                />
+            </ImageWrapper>
             <Content>
                 <TitleRow>
                     <Title>{item.title}</Title>

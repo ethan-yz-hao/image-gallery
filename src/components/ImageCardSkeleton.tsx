@@ -17,14 +17,12 @@ const SkeletonWrapper = styled.div`
     overflow: hidden;
     width: 300px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    height: 350px; // Adjust based on your card height
+    height: 350px;
 `;
 
 const SkeletonHeader = styled.div`
-    height: 200px; // Adjust based on your image height
-    background: #eee;
-    background-image: linear-gradient(to right, #eeeeee 0%, #dddddd 20%, #eeeeee 40%, #eeeeee 100%);
-    background-repeat: no-repeat;
+    height: 200px;
+    background: #eee linear-gradient(to right, #eeeeee 0%, #dddddd 20%, #eeeeee 40%, #eeeeee 100%) no-repeat;
     animation: ${shimmer} 1s linear infinite;
     background-size: 800px 104px;
 `;
@@ -35,11 +33,9 @@ const SkeletonBody = styled.div`
 
 const SkeletonLine = styled.div`
     height: 20px;
-    background: #eee;
     margin: 5px 0;
     border-radius: 4px;
-    background-image: linear-gradient(to right, #eeeeee 0%, #dddddd 20%, #eeeeee 40%, #eeeeee 100%);
-    background-repeat: no-repeat;
+    background: #eee linear-gradient(to right, #eeeeee 0%, #dddddd 20%, #eeeeee 40%, #eeeeee 100%) no-repeat;
     animation: ${shimmer} 1s linear infinite;
     background-size: 800px 104px;
 `;
