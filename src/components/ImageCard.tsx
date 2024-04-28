@@ -32,7 +32,7 @@ const Image = styled.img`
 `;
 
 const Content = styled.div`
-    padding: 5px 15px 10px 15px;
+    padding: 10px 15px 10px 15px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     position: relative;
 `;
@@ -67,6 +67,8 @@ const DateText = styled.small`
 const SelectIcon = styled.span`
     color: #e60023;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 
     &:hover {
         color: #cc001d;
