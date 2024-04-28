@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import {ImageItem} from "@/hooks/useImages.ts";
+import { FaRegCircle, FaCheckCircle } from 'react-icons/fa'; // Importing icons
+import { ImageItem } from "@/hooks/useImages.ts";
 
 const Card = styled.div`
     background: #fff;
@@ -24,39 +25,44 @@ const Image = styled.img`
 `;
 
 const Content = styled.div`
-    padding: 20px;
+    padding: 5px 15px 10px 15px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    position: relative;
+`;
+
+const TitleRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const Title = styled.h3`
-    margin: 0 0 10px;
+    text-align: left;
     color: #333;
     font-size: 1.4em;
+    margin: 0;
 `;
 
 const Description = styled.p`
+    text-align: left;
+    margin: 5px 0;
     color: #555;
     font-size: 0.9em;
 `;
 
 const DateText = styled.small`
+    text-align: left;
     display: block;
-    margin-top: 10px;
     color: #aaa;
     font-size: 0.8em;
 `;
 
-const SelectButton = styled.button`
-    background-color: #e60023;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
+const SelectIcon = styled.span`
+    color: #e60023;
     cursor: pointer;
-    margin-top: 10px;
 
     &:hover {
-        background-color: #cc001d;
+        color: #cc001d;
     }
 `;
 
@@ -64,21 +70,21 @@ interface Props {
     item: ImageItem;
     isSelected: boolean;
     toggleSelect: (item: ImageItem) => void;
-
 }
-
 
 const ImageCard = ({ item, isSelected, toggleSelect }: Props) => {
     return (
         <Card>
             <Image src={item.url} alt={item.title} />
             <Content>
-                <Title>{item.title}</Title>
+                <TitleRow>
+                    <Title>{item.title}</Title>
+                    <SelectIcon onClick={() => toggleSelect(item)}>
+                        {isSelected ? <FaCheckCircle size="1.5em" /> : <FaRegCircle size="1.5em" />}
+                    </SelectIcon>
+                </TitleRow>
                 <Description>{item.description}</Description>
                 <DateText>Posted on: {new Date(item.created).toLocaleDateString()}</DateText>
-                <SelectButton onClick={() => toggleSelect(item)}>
-                    {isSelected ? 'Unselect' : 'Select'}
-                </SelectButton>
             </Content>
         </Card>
     );

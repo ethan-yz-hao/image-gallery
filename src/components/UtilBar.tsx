@@ -121,7 +121,7 @@ const DropdownItem = styled.div`
 
 const DropdownItemText = styled.div`
     font-family: 'Helvetica Neue', sans-serif;
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: #333;
     text-align: left;
     white-space: nowrap;
