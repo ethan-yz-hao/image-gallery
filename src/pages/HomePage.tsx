@@ -3,15 +3,24 @@ import useImages, {ImageItem} from "@/hooks/useImages.ts";
 import UtilBar from "@/components/UtilBar.tsx";
 import {RootState} from "@/store.ts";
 import {useDispatch, useSelector} from "react-redux";
-import { clearSelection, selectAll } from '@/features/selectionSlice';
+import {clearSelection, selectAll} from '@/features/selectionSlice';
 import {useEffect, useState} from "react";
+import styled from "styled-components";
+
+const Grid = styled.div`
+    position: absolute;
+    top: 110px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
 
 const HomePage = () => {
     const {imageArray, loading, error} = useImages()
 
     // handle selection
     const dispatch = useDispatch();
-    const { selectedItems } = useSelector((state: RootState) => ({
+    const {selectedItems} = useSelector((state: RootState) => ({
         selectedItems: state.selection.selectedItems
     }));
 
@@ -59,7 +68,7 @@ const HomePage = () => {
         }
     }, [imageArray, currentSortMethod]);
 
-    const applySearchAndSorting  = (items: ImageItem[]) => {
+    const applySearchAndSorting = (items: ImageItem[]) => {
         const filtered = items.filter(item =>
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -82,14 +91,13 @@ const HomePage = () => {
                 filtered.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
                 break;
             default:
-                // No sorting applied
                 break;
         }
         setFilteredList(filtered);
     };
 
     return (
-        <div>
+        <>
             <UtilBar
                 selectAll={() => handleSelectAll(filteredList)}
                 clearSelection={handleClearSelection}
@@ -99,10 +107,12 @@ const HomePage = () => {
                 setCurrentSortMethod={setCurrentSortMethod}
                 initiateSearch={() => applySearchAndSorting(imageArray)}
             />
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
-            {!loading && !error && <ImageGrid allItems={filteredList} />}
-        </div>
+            <Grid>
+                {loading && <p>Loading...</p>}
+                {error && <p>Error: {error}</p>}
+                {!loading && !error && <ImageGrid allItems={filteredList}/>}
+            </Grid>
+        </>
     );
 };
 
