@@ -19,6 +19,7 @@ const Bar = styled.div`
     border-bottom: 1px solid #e7e7e7;
     font-family: 'Helvetica Neue', sans-serif;
     justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 `;
 
