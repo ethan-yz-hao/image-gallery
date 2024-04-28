@@ -2,7 +2,7 @@
 
 This web application is built with React and TypeScript and allows users to interactively view, sort, select, and download images. Utilizing Redux for state management and Styled Components for custom styled elements, it offers a responsive and engaging user experience.
 
-Deployed on Vercel: [Image Gallery](https://image-gallery-eta.vercel.app/)
+Deployed on Vercel: [Image Gallery](https://image-gallery-kappa-six.vercel.app/)
 
 ## Features
 - **Infinite Scrolling Image Gallery**: Displays images using a masonry layout that supports infinite scrolling.
