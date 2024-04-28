@@ -2,6 +2,10 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
+    position: fixed;
+    width: 100%;
+    height: 45px;
+    z-index: 10;
     background: #fff;
     color: #333;
     padding: 10px 20px;

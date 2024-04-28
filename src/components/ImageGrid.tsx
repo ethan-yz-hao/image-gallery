@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/store.ts";
 import {ImageItem} from "@/hooks/useImages.ts";
 import {toggleSelect} from "@/features/selectionSlice.ts";
+import styled from "styled-components";
 
 const breakpointColumnsObj = {
     default: 5,
@@ -12,6 +13,14 @@ const breakpointColumnsObj = {
     980: 2,
     650: 1
 };
+
+const Grid = styled.div`
+    position: absolute;
+    top: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
 
 const ImageGrid = ({ allItems }: {allItems: ImageItem[]}) => {
     const dispatch = useDispatch();
@@ -24,7 +33,7 @@ const ImageGrid = ({ allItems }: {allItems: ImageItem[]}) => {
     };
 
     return (
-        <div style={{width:'100%', display: 'flex', justifyContent: 'center'}}>
+        <Grid>
         <Masonry
             breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid"
@@ -38,7 +47,7 @@ const ImageGrid = ({ allItems }: {allItems: ImageItem[]}) => {
                 />
             ))}
         </Masonry>
-        </div>
+        </Grid>
     );
 };
 

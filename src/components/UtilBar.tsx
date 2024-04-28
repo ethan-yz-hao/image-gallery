@@ -6,6 +6,11 @@ import {RootState} from "@/store.ts";
 import {unselect} from "@/features/selectionSlice";
 
 const Bar = styled.div`
+    position: fixed;
+    top: 45px;
+    width: 100%;
+    height: 50px;
+    z-index: 10;
     display: flex;
     align-items: center;
     padding: 10px 20px;
