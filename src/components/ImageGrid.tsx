@@ -1,7 +1,7 @@
-import ImageCard from './ImageCard';
+import ImageCard from "@/components/ImageCard.tsx";
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleSelect } from '../features/selectionSlice';
-import { RootState } from '../store';
+import { toggleSelect } from '@/features/selectionSlice';
+import { RootState } from '@/store';
 import styled from 'styled-components';
 import {ImageItem} from "@/hooks/useImages.ts";
 

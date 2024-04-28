@@ -15,7 +15,7 @@ const NavItem = styled(NavLink)`
     text-decoration: none;
     margin-right: 15px;
     font-family: 'Helvetica Neue', sans-serif;
-    font-size: 16px;
+    font-size: 1.2rem;
 
     &.active {
         font-weight: bold;

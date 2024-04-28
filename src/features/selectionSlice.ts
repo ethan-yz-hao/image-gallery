@@ -26,10 +26,16 @@ const selectionSlice = createSlice({
         },
         selectAll: (state, action: PayloadAction<ImageItem[]>) => {
             state.selectedItems = action.payload;
+        },
+        unselect: (state, action: PayloadAction<ImageItem>) => {
+            const index = state.selectedItems.findIndex(item => item.url === action.payload.url);
+            if (index >= 0) {
+                state.selectedItems.splice(index, 1);
+            }
         }
     },
 });
 
-export const { toggleSelect, clearSelection, selectAll } = selectionSlice.actions;
+export const { toggleSelect, clearSelection, selectAll , unselect} = selectionSlice.actions;
 
 export default selectionSlice.reducer;
