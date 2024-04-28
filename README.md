@@ -1,30 +1,19 @@
-# React + TypeScript + Vite
+# Image Gallery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a web application built with React and TypeScript that allows users to view, sort, select, and download images. It utilizes Redux for state management and Styled Components for custom styled elements, providing a responsive and interactive user experience.
 
-Currently, two official plugins are available:
+## Features
+- image gallery with infinite scroll, mansory layout
+- loading skeleton
+- image sorting (by date, title, ascending, descending)
+- image search (by title or description)
+- image selection (mutilple selection, select all, clear all, dropdown list for bulk actions)
+- responsive layout
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies
+- Styled Components, ReactIcon, react mansory css
+- react router dom
+- react redux
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list

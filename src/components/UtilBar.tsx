@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React, {useState} from "react";
 import {FaCaretDown, FaDownload, FaSearch, FaTrash} from 'react-icons/fa';
+import {BsList} from "react-icons/bs";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/store.ts";
 import {unselect} from "@/features/selectionSlice";
@@ -23,17 +24,33 @@ const Bar = styled.div`
     box-sizing: border-box;
 `;
 
-const LeftGroup = styled.div`
+const SortGroup = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
 
+    @media (max-width: 599px) {
+        display: none;
+    }
 `;
 
-const RightGroup = styled.div`
+const SearchGroup = styled.div`
+    margin: 0 10px 0 10px;
+    display: flex;
+    align-items: center;
+    justify-items: end;
+    flex-grow: 1;
+    gap: 10px;
+`;
+
+const ToolsGroup = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
+
+    @media (max-width: 825px) {
+        display: none;
+    }
 `;
 
 const IconBtn = styled.button`
@@ -53,8 +70,11 @@ const IconBtn = styled.button`
 
 const Link = styled.div`
     color: #333;
+    margin: 0 10px 0 10px;
     text-decoration: underline;
+    text-align: left;
     font-family: 'Helvetica Neue', sans-serif;
+    white-space: nowrap;
     font-size: 1rem;
     cursor: pointer;
 
@@ -75,7 +95,7 @@ const Input = styled.input`
     border: 1px solid #ccc;
     border-radius: 5px;
     flex-grow: 1;
-    min-width: 300px;
+    max-width: 500px;
 `;
 
 const Dropdown = styled.div`
@@ -86,7 +106,6 @@ const Dropdown = styled.div`
 const DropdownContent = styled.div`
     position: absolute;
     background-color: #ffffff;
-    min-width: 160px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     z-index: 1;
     border-radius: 8px;
@@ -127,6 +146,14 @@ const DropdownItemText = styled.div`
     flex-grow: 1;
 `;
 
+const MobileDropdown = styled.div`
+    display: none;
+
+    @media (max-width: 825px) {
+        display: block;
+    }
+`;
+
 interface Props {
     selectAll: () => void;
     clearSelection: () => void;
@@ -138,11 +165,11 @@ interface Props {
 }
 
 const sortOptions = [
-    { value: '', label: 'None' },
-    { value: 'name-asc', label: 'Name A-Z' },
-    { value: 'name-desc', label: 'Name Z-A' },
-    { value: 'created-asc', label: 'Created Oldest' },
-    { value: 'created-desc', label: 'Created Newest' }
+    {value: '', label: 'None'},
+    {value: 'name-asc', label: 'Name A-Z'},
+    {value: 'name-desc', label: 'Name Z-A'},
+    {value: 'created-asc', label: 'Created Oldest'},
+    {value: 'created-desc', label: 'Created Newest'}
 ];
 
 const UtilBar = ({
@@ -166,21 +193,22 @@ const UtilBar = ({
         selectedItems: state.selection.selectedItems
     }));
 
-
     return (
         <Bar>
-            <LeftGroup>
+            <SortGroup>
                 <Text>Sort By:</Text>
                 <CustomSelect
                     options={sortOptions}
                     value={sortOptions.find(o => o.value === currentSortMethod)!.label}
                     onChange={(value: string) => setCurrentSortMethod(value)}
                 />
-            </LeftGroup>
-            <RightGroup>
+            </SortGroup>
+            <SearchGroup>
                 <Input type="text" placeholder="Search images..." onChange={e => setSearchQuery(e.target.value)}
                        onKeyPress={handleKeyPress}/>
                 <IconBtn onClick={initiateSearch}><FaSearch/></IconBtn>
+            </SearchGroup>
+            <ToolsGroup>
                 <Dropdown>
                     <DropdownButton onClick={toggleDropdown}>
                         <Text>{selectedItems.length} selected</Text>
@@ -198,7 +226,19 @@ const UtilBar = ({
                 <Link onClick={selectAll}>Select All</Link>
                 <Link onClick={clearSelection}>Clear</Link>
                 <IconBtn onClick={downloadSelected}><FaDownload/></IconBtn>
-            </RightGroup>
+            </ToolsGroup>
+            <MobileDropdown>
+                <DropdownButton onClick={() => setDropdownOpen(!dropdownOpen)}>
+                    <BsList size={24}/>
+                </DropdownButton>
+                {dropdownOpen && (
+                    <DropdownContent style={{translate: "-90%"}}>
+                        <Link onClick={selectAll}>Select All</Link>
+                        <Link onClick={clearSelection}>Clear</Link>
+                        <IconBtn onClick={downloadSelected}><FaDownload/></IconBtn>
+                    </DropdownContent>
+                )}
+            </MobileDropdown>
         </Bar>
     );
 };
