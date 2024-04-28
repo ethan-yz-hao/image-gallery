@@ -18,6 +18,7 @@ const Bar = styled.div`
     border-bottom: 1px solid #e7e7e7;
     font-family: 'Helvetica Neue', sans-serif;
     justify-content: space-between;
+    box-sizing: border-box;
 `;
 
 const LeftGroup = styled.div`

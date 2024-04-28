@@ -12,6 +12,7 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 `;
 
 const NavItem = styled(NavLink)`

@@ -16,7 +16,7 @@ const breakpointColumnsObj = {
 
 const Grid = styled.div`
     position: absolute;
-    top: 120px;
+    top: 110px;
     width: 100%;
     display: flex;
     justify-content: center;
