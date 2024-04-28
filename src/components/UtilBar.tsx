@@ -1,61 +1,84 @@
 import styled from 'styled-components';
 import React from "react";
+import {FaSearch, FaDownload} from 'react-icons/fa';
 
 const Bar = styled.div`
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     padding: 10px 20px;
-    background-color: #f8f9fa;
+    background-color: #fff;
     border-bottom: 1px solid #e7e7e7;
+    font-family: 'Helvetica Neue', sans-serif;
+`;
+
+const IconBtn = styled.button`
+    background-color: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #333;
+
+    &:hover {
+        color: #e60023; // Pinterest red for hover effect
+    }
 `;
 
 const Button = styled.button`
-    background-color: #28a745;
+    background-color: #e60023; // Using Pinterest red
     color: white;
     border: none;
     padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 10px;
 
     &:hover {
-        background-color: #218838;
+        background-color: #cc001d;
     }
 `;
 
 export const SortButton = styled(Button)`
-    background-color: #007bff;
+    background-color: #0056b3;
 
     &:hover {
-        background-color: #0056b3;
+        background-color: #00397a;
     }
 `;
 
 const Input = styled.input`
     padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; // Full width for better visibility
+    margin-right: 10px;
+    flex-grow: 1;
+`;
+
+const Select = styled.select`
+    width: 150px;
+    padding: 8px;
     margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    cursor: pointer;
 `;
-
 
 interface Props {
     selectAll: () => void;
     clearSelection: () => void;
     downloadSelected: () => void;
-    sortByName: () => void;
-    nameSortDirection?: string;
-    sortByCreated: () => void;
-    createdSortDirection?: string;
+    currentSortMethod: string;
+    setCurrentSortMethod: (method: string) => void;
     setSearchQuery: (query: string) => void;
     initiateSearch: () => void;
 }
 
 const UtilBar = ({
                      selectAll, clearSelection, downloadSelected,
-                     sortByName, nameSortDirection,
-                     sortByCreated, createdSortDirection,
-                     setSearchQuery,
-                     initiateSearch
+                     currentSortMethod, setCurrentSortMethod,
+                     setSearchQuery, initiateSearch
                  }: Props) => {
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -65,13 +88,24 @@ const UtilBar = ({
 
     return (
         <Bar>
-            <Input type="text" placeholder="Search images..." onChange={e => setSearchQuery(e.target.value)} onKeyPress={handleKeyPress} />
-            <Button onClick={initiateSearch}>Search</Button>
+            <p>Sort By:</p>
+            <Select value={currentSortMethod} onChange={e => setCurrentSortMethod(e.target.value)}>
+                <option value="">No Sort</option>
+                <option value="name-asc">Name A-Z</option>
+                <option value="name-desc">Name Z-A</option>
+                <option value="created-asc">Created Oldest</option>
+                <option value="created-desc">Created Newest</option>
+            </Select>
+            <Input type="text" placeholder="Search images..." onChange={e => setSearchQuery(e.target.value)}
+                   onKeyPress={handleKeyPress}/>
+            <IconBtn onClick={initiateSearch}>
+                <FaSearch/>
+            </IconBtn>
             <Button onClick={selectAll}>Select All</Button>
             <Button onClick={clearSelection}>Clear Selection</Button>
-            <Button onClick={downloadSelected}>Download Selected</Button>
-            <SortButton onClick={() => sortByName()}>{`Name: ${nameSortDirection || 'Off'}`}</SortButton>
-            <SortButton onClick={() => sortByCreated()}>{`Created: ${createdSortDirection || 'Off'}`}</SortButton>
+            <IconBtn onClick={downloadSelected}>
+                <FaDownload/>
+            </IconBtn>
         </Bar>
     );
 };

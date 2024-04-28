@@ -49,20 +49,15 @@ const HomePage = () => {
     };
 
     // handle sort and search
-    const [nameSortDirection, setNameSortDirection] = useState('');
-    const [createdSortDirection, setCreatedSortDirection] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredList, setFilteredList] = useState<ImageItem[]>([]);
+    const [currentSortMethod, setCurrentSortMethod] = useState('');
 
     useEffect(() => {
         if (imageArray && imageArray.length > 0) {
             applySearchAndSorting(imageArray);
         }
-    }, [imageArray]);
-
-    const handleSearch = () => {
-        applySearchAndSorting(imageArray);
-    };
+    }, [imageArray, currentSortMethod]);
 
     const applySearchAndSorting  = (items: ImageItem[]) => {
         const filtered = items.filter(item =>
@@ -73,42 +68,24 @@ const HomePage = () => {
     };
 
     const applySorting = (filtered: ImageItem[]) => {
-        if (nameSortDirection === 'asc') {
-            filtered.sort((a, b) => a.title.localeCompare(b.title));
-        } else if (nameSortDirection === 'desc') {
-            filtered.sort((a, b) => b.title.localeCompare(a.title));
+        switch (currentSortMethod) {
+            case 'name-asc':
+                filtered.sort((a, b) => a.title.localeCompare(b.title));
+                break;
+            case 'name-desc':
+                filtered.sort((a, b) => b.title.localeCompare(a.title));
+                break;
+            case 'created-asc':
+                filtered.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime());
+                break;
+            case 'created-desc':
+                filtered.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
+                break;
+            default:
+                // No sorting applied
+                break;
         }
-
-        if (createdSortDirection === 'asc') {
-            filtered.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime());
-        } else if (createdSortDirection === 'desc') {
-            filtered.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
-        }
-
-        setFilteredList(filtered);  // Set the state with the filtered and sorted list
-    };
-
-
-    const toggleSortDirection = (current: string) => {
-        switch(current) {
-            case 'asc': return 'desc';
-            case 'desc': return '';
-            default: return 'asc';
-        }
-    };
-
-    const sortByName = () => {
-        const newDirection = toggleSortDirection(nameSortDirection);
-        setNameSortDirection(newDirection);
-        setCreatedSortDirection('');
-        applySorting(filteredList);  // Apply sorting on current filtered list
-    };
-
-    const sortByCreated = () => {
-        const newDirection = toggleSortDirection(createdSortDirection);
-        setCreatedSortDirection(newDirection);
-        setNameSortDirection('');
-        applySorting(filteredList);  // Apply sorting on current filtered list
+        setFilteredList(filtered);
     };
 
     return (
@@ -117,12 +94,10 @@ const HomePage = () => {
                 selectAll={() => handleSelectAll(filteredList)}
                 clearSelection={handleClearSelection}
                 downloadSelected={downloadSelected}
-                sortByName={sortByName}
-                nameSortDirection={nameSortDirection}
-                sortByCreated={sortByCreated}
-                createdSortDirection={createdSortDirection}
                 setSearchQuery={setSearchQuery}
-                initiateSearch={handleSearch}
+                currentSortMethod={currentSortMethod}
+                setCurrentSortMethod={setCurrentSortMethod}
+                initiateSearch={() => applySearchAndSorting(imageArray)}
             />
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}

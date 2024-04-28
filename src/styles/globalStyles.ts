@@ -17,27 +17,6 @@ const GlobalStyles = createGlobalStyle`
     #root {
         text-align: center;
     }
-    
-    button {
-        padding: 8px 16px;
-        margin: 5px;
-        background: blue;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-            background: darkblue;
-        }
-    }
-
-    input, select {
-        padding: 8px;
-        margin: 5px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-    }
 `;
 
 export default GlobalStyles;
