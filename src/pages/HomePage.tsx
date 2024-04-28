@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearSelection, selectAll} from '@/features/selectionSlice';
 import {useEffect, useState} from "react";
 import styled from "styled-components";
+import ImageGridSkeleton from "@/components/ImageGridSkeleton.tsx";
 
 const Grid = styled.div`
     position: absolute;
@@ -108,9 +109,11 @@ const HomePage = () => {
                 initiateSearch={() => applySearchAndSorting(imageArray)}
             />
             <Grid>
-                {loading && <p>Loading...</p>}
-                {error && <p>Error: {error}</p>}
-                {!loading && !error && <ImageGrid allItems={filteredList}/>}
+                {loading ? (
+                    <ImageGridSkeleton n={12}/>
+                ) : (
+                    error ? <p>Error: {error}</p> : <ImageGrid allItems={filteredList}/>
+                )}
             </Grid>
         </>
     );
