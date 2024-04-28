@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import React, {useState} from "react";
-import {FaSearch, FaDownload, FaTrash, FaCaretDown} from 'react-icons/fa';
+import {FaCaretDown, FaDownload, FaSearch, FaTrash} from 'react-icons/fa';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/store.ts";
 import {unselect} from "@/features/selectionSlice";
+import CustomSelect from "@/components/CustomSelect.tsx";
 
 const Bar = styled.div`
     position: fixed;
@@ -61,17 +62,6 @@ const Link = styled.div`
     }
 `;
 
-const Select = styled.select`
-    width: 145px;
-    padding: 8px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: white; // Enhancing visual style to be more aligned with Pinterest
-    font-family: 'Helvetica Neue', sans-serif;
-`;
-
 const Text = styled.p`
     font-family: 'Helvetica Neue', sans-serif;
     font-size: 1rem;
@@ -94,11 +84,12 @@ const Dropdown = styled.div`
 
 const DropdownContent = styled.div`
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     z-index: 1;
-    border-radius: 5px;
+    border-radius: 8px;
+    padding: 5px 0;
 `;
 
 const DropdownButton = styled.div`
@@ -116,7 +107,12 @@ const DropdownItem = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
+    padding: 8px 16px;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: #f7f7f7;
+    }
 `;
 
 const DropdownItemText = styled.div`
@@ -137,6 +133,14 @@ interface Props {
     setSearchQuery: (query: string) => void;
     initiateSearch: () => void;
 }
+
+const sortOptions = [
+    { value: '', label: 'None' },
+    { value: 'name-asc', label: 'Name A-Z' },
+    { value: 'name-desc', label: 'Name Z-A' },
+    { value: 'created-asc', label: 'Created Oldest' },
+    { value: 'created-desc', label: 'Created Newest' }
+];
 
 const UtilBar = ({
                      selectAll, clearSelection, downloadSelected,
@@ -164,13 +168,11 @@ const UtilBar = ({
         <Bar>
             <LeftGroup>
                 <Text>Sort By:</Text>
-                <Select value={currentSortMethod} onChange={e => setCurrentSortMethod(e.target.value)}>
-                    <option value="">None</option>
-                    <option value="name-asc">Name A-Z</option>
-                    <option value="name-desc">Name Z-A</option>
-                    <option value="created-asc">Created Oldest</option>
-                    <option value="created-desc">Created Newest</option>
-                </Select>
+                <CustomSelect
+                    options={sortOptions}
+                    value={sortOptions.find(o => o.value === currentSortMethod)!.label}
+                    onChange={(value: string) => setCurrentSortMethod(value)}
+                />
             </LeftGroup>
             <RightGroup>
                 <Input type="text" placeholder="Search images..." onChange={e => setSearchQuery(e.target.value)}
