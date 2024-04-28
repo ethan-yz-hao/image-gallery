@@ -23,9 +23,29 @@ const HomePage = () => {
         dispatch(clearSelection());
     };
 
-    const downloadSelected = () => {
-        const urls = selectedItems.map(item => item.url);
-        console.log('Downloading:', urls);
+    const downloadSelected = async () => {
+        for (const item of selectedItems) {
+            try {
+                if (!item.url) {
+                    console.warn('No URL found for item:', item);
+                    continue;
+                }
+                const response = await fetch(item.url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const filename = item.url.split('/').pop()?.split('?')[0]?.split('#')[0] || 'download';
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error('Failed to fetch and download image:', error);
+            }
+        }
     };
 
     // handle sort and search
