@@ -26,7 +26,7 @@ const HomePage = () => {
     }));
 
     const handleSelectAll = (items: ImageItem[]) => {
-        dispatch(selectAll(items));
+        dispatch(selectAll([...selectedItems, ...items]));
     };
 
     const handleClearSelection = () => {
